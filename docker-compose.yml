@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Service 1: Your Backend
+  server:
+    build: ./server  # Build the Dockerfile we made earlier
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - DB_USER=postgres
+      - DB_HOST=db       # Hostname of the database service
+      - DB_NAME=ticket-system
+      - DB_PASSWORD=password
+      - DB_PORT=5432
+    depends_on:
+      - db
+
+  # Service 2: The Database
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ticket-system
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data # Saves data so it doesn't vanish when you stop Docker
+
+volumes:
+  pgdata:
