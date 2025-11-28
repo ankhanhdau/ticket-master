@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  # Service 1: Your Backend
+  # Service 1: Backend
   server:
-    build: ./server  # Build the Dockerfile we made earlier
+    build: ./server  
     ports:
       - "5001:5001"
     environment:
@@ -27,7 +27,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data # Saves data so it doesn't vanish when you stop Docker
+      - pgdata:/var/lib/postgresql/data 
 
 volumes:
   pgdata:
