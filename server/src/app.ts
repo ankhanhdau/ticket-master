@@ -1,32 +1,21 @@
 import express from 'express';
-import pg from 'pg';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import db from './db';
 
-dotenv.config();
+dotenv.config({ path: './.env' });
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-const { Pool } = pg;
 
 app.use(express.json());
 app.use(cors());
-
-const db = new Pool(
-    {
-        user: process.env.DB_USER,
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        password: process.env.DB_PASSWORD,
-        port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : undefined,
-    });
 
 app.get('/users', async (req, res) => {
     try {
         const users = await db.query('SELECT * FROM users');
         res.json(users.rows);
     } catch (err) {
-        console.error(err instanceof Error ? err.message : 'Unknown error');
+        console.error(err instanceof Error ? err.message : err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -37,7 +26,7 @@ app.get('/tickets', async (req, res) => {
         const tickets = await db.query(query);
         res.json(tickets.rows);
     } catch (err) {
-        console.error(err instanceof Error ? err.message : 'Unknown error');
+        console.error(err instanceof Error ? err.message : err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -52,7 +41,7 @@ app.post('/tickets', async (req, res) => {
         const newTicket = await db.query(query, [title]);
         res.json(newTicket.rows[0]);
     } catch (err) {
-        console.error(err instanceof Error ? err.message : 'Unknown error');
+        console.error(err instanceof Error ? err.message : err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -64,7 +53,7 @@ app.patch('/tickets/:id', async (req, res) => {
         const updatedTicket = await db.query(query, [status, req.params.id]);
         res.json(updatedTicket.rows[0]);
     } catch (err) {
-        console.error(err instanceof Error ? err.message : 'Unknown error');
+        console.error(err instanceof Error ? err.message : err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
@@ -74,11 +63,9 @@ app.delete('/tickets/:id', async (req, res) => {
         await db.query(query, [req.params.id]);
         res.json({ message: 'Ticket deleted successfully' });
     } catch (err) {
-        console.error(err instanceof Error ? err.message : 'Unknown error');
+        console.error(err instanceof Error ? err.message : err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+export default app;
