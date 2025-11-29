@@ -15,7 +15,7 @@ TicketMaster is a lightweight, full-stack Kanban board designed for agile teams.
 
 ## **Features**
 - **Full CRUD for Tickets** – Create, read, update, and delete tickets.  
-- **Kanban Board** – Visualize ticket progress with drag-and-drop or click-to-move interaction.  
+- **Kanban Board** – Visualize ticket progress click-to-move interaction.  
 - **Optimistic UI Updates** – Instant feedback without waiting for server responses.  
 - **Dockerized System** – API and PostgreSQL run inside containers for a consistent environment.
 
@@ -25,7 +25,7 @@ TicketMaster is a lightweight, full-stack Kanban board designed for agile teams.
 
 ### **Clone the Repository**
 ```bash
-git clone <your-repo-link>
-cd ticket-system
+git clone https://github.com/ankhanhdau/ticket-master.git
+cd ticket-master
 docker-compose up --build
 ```
