@@ -23,4 +23,4 @@ RUN npm run build
 EXPOSE 5001
 
 # 7. The command to start the app
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server.js"]
